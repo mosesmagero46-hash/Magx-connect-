@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MAGX Connect</title>
+<meta name="description" content="MAGX Connect connects farmers, buyers, workers, businesses and transport providers.">
+<style>
+:root{--dark:#10251b;--green:#1f7a4d;--light:#f4f8f5;--gold:#f4b942;--white:#fff;--muted:#63736a}
+*{box-sizing:border-box} body{margin:0;font-family:Arial,sans-serif;color:var(--dark);background:var(--light);line-height:1.6}
+nav{background:var(--dark);color:white;padding:16px 6%;display:flex;justify-content:space-between;align-items:center;position:sticky;top:0;z-index:5}
+.logo{font-size:24px;font-weight:800;letter-spacing:1px}.logo span{color:var(--gold)}
+nav a{color:white;text-decoration:none;margin-left:18px;font-size:14px}
+.hero{padding:75px 7%;background:linear-gradient(135deg,#10251b,#1f7a4d);color:white}
+.hero h1{font-size:clamp(36px,7vw,62px);line-height:1.05;margin:0 0 18px;max-width:750px}
+.hero p{font-size:19px;max-width:650px;color:#e9f5ed}.buttons{display:flex;gap:12px;flex-wrap:wrap;margin-top:25px}
+.btn{display:inline-block;padding:13px 20px;border-radius:8px;text-decoration:none;font-weight:700;border:0;cursor:pointer}
+.primary{background:var(--gold);color:#17220c}.secondary{background:white;color:var(--dark)}
+section{padding:55px 7%}.heading{text-align:center;max-width:720px;margin:0 auto 30px}.heading h2{font-size:32px;margin:0 0 8px}.muted{color:var(--muted)}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:18px}.card{background:white;border-radius:14px;padding:23px;box-shadow:0 5px 20px #10251b12}.icon{font-size:32px}.card h3{margin:10px 0 6px}
+.steps{counter-reset:step}.step{position:relative;padding:20px 20px 20px 60px;background:white;border-radius:12px}.step:before{counter-increment:step;content:counter(step);position:absolute;left:18px;top:20px;background:var(--green);color:white;width:30px;height:30px;border-radius:50%;display:grid;place-items:center;font-weight:bold}
+form{max-width:720px;margin:auto;background:white;padding:25px;border-radius:15px;box-shadow:0 5px 20px #10251b12}label{display:block;font-weight:700;margin-top:14px}input,select,textarea{width:100%;padding:12px;margin-top:6px;border:1px solid #ccd8d0;border-radius:8px;font:inherit}textarea{min-height:100px}.submit{margin-top:20px;background:var(--green);color:white}
+footer{background:var(--dark);color:white;text-align:center;padding:30px 7%}footer a{color:#f4b942}
+@media(max-width:650px){nav a{display:none}.hero{padding-top:55px}section{padding:42px 5%}}
+</style>
+</head>
+<body>
+<nav>
+  <div class="logo">MAGX <span>CONNECT</span></div>
+  <div><a href="#services">Services</a><a href="#how">How it works</a><a href="#join">Join</a></div>
+</nav>
+
+<header class="hero">
+  <h1>Connecting people to opportunities.</h1>
+  <p>MAGX Connect brings together farmers, buyers, workers, businesses, transport providers and people who need digital services.</p>
+  <div class="buttons">
+    <a class="btn primary" href="#join">Join MAGX Connect</a>
+    <a class="btn secondary" href="#services">Explore Services</a>
+  </div>
+</header>
+
+<section id="services">
+  <div class="heading"><h2>Our Services</h2><p class="muted">One platform for local connections and practical services.</p></div>
+  <div class="grid">
+    <div class="card"><div class="icon">🌾</div><h3>Agriculture</h3><p>Connect farmers with buyers, market information and service providers.</p></div>
+    <div class="card"><div class="icon">👷</div><h3>Jobs & Skills</h3><p>Connect employers with available workers and skilled service providers.</p></div>
+    <div class="card"><div class="icon">🛒</div><h3>Group Buying</h3><p>Coordinate pre-orders and connect customers with suppliers.</p></div>
+    <div class="card"><div class="icon">🚚</div><h3>Transport</h3><p>Help customers find transport and delivery providers.</p></div>
+    <div class="card"><div class="icon">📱</div><h3>Digital Services</h3><p>Help people access basic digital services and information.</p></div>
+  </div>
+</section>
+
+<section id="how">
+  <div class="heading"><h2>How MAGX Connect Works</h2></div>
+  <div class="grid steps">
+    <div class="step"><h3>Register</h3><p>Tell us who you are and what service you need or provide.</p></div>
+    <div class="step"><h3>Submit a request</h3><p>Describe the product, job, transport or service you are looking for.</p></div>
+    <div class="step"><h3>Get connected</h3><p>MAGX Connect helps connect you with a relevant person or provider.</p></div>
+    <div class="step"><h3>Complete the deal</h3><p>Agree on price, terms and delivery directly with the other party.</p></div>
+  </div>
+</section>
+
+<section id="join">
+  <div class="heading"><h2>Join MAGX Connect</h2><p class="muted">Register as a farmer, buyer, worker, business, driver or service provider.</p></div>
+  <form id="joinForm">
+    <label>Full name<input id="name" required placeholder="Your name"></label>
+    <label>Phone number<input id="phone" required type="tel" placeholder="07XXXXXXXX"></label>
+    <label>Location<input id="location" required placeholder="e.g. Tororo"></label>
+    <label>I am a...
+      <select id="role" required>
+        <option value="">Choose one</option><option>Farmer</option><option>Buyer</option><option>Job seeker / worker</option><option>Employer</option><option>Transport provider</option><option>Customer</option><option>Digital service provider</option>
+      </select>
+    </label>
+    <label>What do you need or offer?<textarea id="message" required placeholder="Describe your product, service or request"></textarea></label>
+    <button class="btn submit" type="submit">Send Registration on WhatsApp</button>
+  </form>
+</section>
+
+<footer>
+  <strong>MAGX CONNECT</strong><br>
+  Connecting local people to opportunities.<br><br>
+  WhatsApp: <a href="https://wa.me/256775846869">+256 775 846 869</a>
+  <p style="font-size:12px;color:#b8c9bf">MAGX Connect WhatsApp</p>
+</footer>
+
+<script>
+document.getElementById('joinForm').addEventListener('submit', function(e){
+  e.preventDefault();
+  const name=document.getElementById('name').value.trim();
+  const phone=document.getElementById('phone').value.trim();
+  const location=document.getElementById('location').value.trim();
+  const role=document.getElementById('role').value;
+  const message=document.getElementById('message').value.trim();
+  const text=`MAGX Connect Registration%0A%0AName: ${encodeURIComponent(name)}%0APhone: ${encodeURIComponent(phone)}%0ALocation: ${encodeURIComponent(location)}%0ARole: ${encodeURIComponent(role)}%0ANeed/Offer: ${encodeURIComponent(message)}`;
+  window.open(`https://wa.me/256775846869?text=${text}`,'_blank');
+});
+</script>
+</body>
+</html>
