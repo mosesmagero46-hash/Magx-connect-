@@ -184,8 +184,222 @@ footer{background:var(--dark);color:white;text-align:center;padding:30px 7%}foot
   WhatsApp: <a href="https://wa.me/256775846869">+256 775 846 869</a>
   <p style="font-size:12px;color:#b8c9bf">MAGX Connect WhatsApp</p>
 </footer>
+<!-- MAGX CONNECT MARKETPLACE -->
+<section id="marketplace">
+  <div class="heading">
+    <h2>MAGX Connect Marketplace</h2>
+    <p class="muted">Buy and sell products from people and businesses.</p>
+  </div>
 
+  <div class="grid">
+    <div class="card">
+      <h3>🛒 Buy Products</h3>
+      <p>Browse products listed by sellers on MAGX Connect.</p>
+      <button class="btn primary" onclick="showBuyer()">Browse Products</button>
+    </div>
+
+    <div class="card">
+      <h3>🏪 Sell a Product</h3>
+      <p>Sellers can add their products for buyers to see.</p>
+      <button class="btn primary" onclick="showSeller()">Add Your Product</button>
+    </div>
+  </div>
+
+  <div id="buyerArea" style="display:none;margin-top:30px;">
+    <h3>🛍️ Products</h3>
+
+    <input id="searchProduct" type="text"
+      placeholder="Search for a product..."
+      style="width:100%;padding:12px;margin:10px 0;border:1px solid #ddd;border-radius:8px;">
+
+    <select id="categoryFilter"
+      style="width:100%;padding:12px;margin:10px 0;border:1px solid #ddd;border-radius:8px;">
+      <option value="">All Categories</option>
+      <option>Fashion & Clothing</option>
+      <option>Shoes</option>
+      <option>Bags & Accessories</option>
+      <option>Phones & Electronics</option>
+      <option>Food & Restaurants</option>
+      <option>Property</option>
+      <option>Vehicles & Transport</option>
+      <option>Furniture & Home</option>
+      <option>Beauty & Cosmetics</option>
+      <option>Engineering Services & Materials</option>
+      <option>Shops & General Products</option>
+      <option>Other</option>
+    </select>
+
+    <div id="productList" class="grid"></div>
+  </div>
+
+  <div id="sellerArea" style="display:none;margin-top:30px;">
+    <h3>🏪 Add Your Product</h3>
+
+    <form id="productForm">
+
+      <label>Seller Name</label>
+      <input id="sellerName" required placeholder="Your name"
+        style="width:100%;padding:12px;margin:6px 0 12px;">
+
+      <label>Phone Number</label>
+      <input id="sellerPhone" type="tel" required placeholder="07XXXXXXXX"
+        style="width:100%;padding:12px;margin:6px 0 12px;">
+
+      <label>Product Name</label>
+      <input id="productName" required placeholder="e.g. Samsung Galaxy A15"
+        style="width:100%;padding:12px;margin:6px 0 12px;">
+
+      <label>Category</label>
+      <select id="productCategory" required
+        style="width:100%;padding:12px;margin:6px 0 12px;">
+        <option value="">Choose category</option>
+        <option>Fashion & Clothing</option>
+        <option>Shoes</option>
+        <option>Bags & Accessories</option>
+        <option>Phones & Electronics</option>
+        <option>Food & Restaurants</option>
+        <option>Property</option>
+        <option>Vehicles & Transport</option>
+        <option>Furniture & Home</option>
+        <option>Beauty & Cosmetics</option>
+        <option>Engineering Services & Materials</option>
+        <option>Shops & General Products</option>
+        <option>Other</option>
+      </select>
+
+      <label>Price (UGX)</label>
+      <input id="productPrice" type="number" required placeholder="e.g. 250000"
+        style="width:100%;padding:12px;margin:6px 0 12px;">
+
+      <label>Location</label>
+      <input id="productLocation" required placeholder="e.g. Kampala"
+        style="width:100%;padding:12px;margin:6px 0 12px;">
+
+      <label>Description</label>
+      <textarea id="productDescription" required placeholder="Describe your product..."
+        style="width:100%;padding:12px;margin:6px 0 12px;"></textarea>
+
+      <label>Product Photo</label>
+      <input id="productImage" type="file" accept="image/*"
+        style="width:100%;padding:12px;margin:6px 0 15px;">
+
+      <button class="btn primary" type="submit">Add Product</button>
+
+    </form>
+  </div>
+  </section>
 <script>
+  
+
+// ===== MAGX MARKETPLACE =====
+
+let products = JSON.parse(localStorage.getItem("magxProducts") || "[]");
+
+function showBuyer() {
+  document.getElementById("buyerArea").style.display = "block";
+  document.getElementById("sellerArea").style.display = "none";
+  renderProducts();
+  }function showSeller() {
+  document.getElementById("sellerArea").style.display = "block";
+  document.getElementById("buyerArea").style.display = "none";
+}
+
+function renderProducts() {
+  const list = document.getElementById("productList");
+  const search = document.getElementById("searchProduct").value.toLowerCase();
+  const category = document.getElementById("categoryFilter").value;
+
+  list.innerHTML = "";
+
+  const filtered = products.filter(function(product) {
+    const matchesSearch =
+      product.name.toLowerCase().includes(search) ||
+      product.description.toLowerCase().includes(search);
+
+    const matchesCategory =
+      !category || product.category === category;
+
+    return matchesSearch && matchesCategory;
+  });
+
+  if (filtered.length === 0) {
+    list.innerHTML = "<p class='muted'>No products found yet.</p>";
+    return;
+  }
+
+  filtered.forEach(function(product) {
+    const card = document.createElement("div");
+    card.className = "card";
+
+    card.innerHTML = `
+      ${product.image ? `<img src="${product.image}" style="width:100%;height:200px;object-fit:cover;border-radius:10px;">` : ""}
+      <h3>${product.name}</h3>
+      <p><strong>UGX ${Number(product.price).toLocaleString()}</strong></p>
+      <p>📦 ${product.category}</p>
+      <p>📍 ${product.location}</p>
+      <p>${product.description}</p>
+      <p>👤 Seller: ${product.sellerName}</p>
+
+      <a
+        class="btn primary"
+        href="https://wa.me/${product.sellerPhone.replace(/^0/, '256')}?text=Hello%20I%20saw%20your%20${encodeURIComponent(product.name)}%20on%20MAGX%20Connect"
+        target="_blank">
+        Contact Seller on WhatsApp
+      </a>
+    `;
+
+    list.appendChild(card);
+  });
+}
+
+document.getElementById("searchProduct").addEventListener("input", renderProducts);
+document.getElementById("categoryFilter").addEventListener("change", renderProducts);
+
+document.getElementById("productForm").addEventListener("submit", function(e) {
+  e.preventDefault();
+
+  const sellerName = document.getElementById("sellerName").value.trim();
+  const sellerPhone = document.getElementById("sellerPhone").value.trim();
+  const name = document.getElementById("productName").value.trim();
+  const category = document.getElementById("productCategory").value;
+  const price = document.getElementById("productPrice").value;
+  const location = document.getElementById("productLocation").value.trim();
+  const description = document.getElementById("productDescription").value.trim();
+  const imageFile = document.getElementById("productImage").files[0];
+
+  function saveProduct(image) {
+    const product = {
+      sellerName,
+      sellerPhone,
+      name,
+      category,
+      price,
+      location,
+      description,
+      image
+    };
+
+    products.push(product);
+    localStorage.setItem("magxProducts", JSON.stringify(products));
+
+    alert("Product added successfully!");
+
+    document.getElementById("productForm").reset();
+    showBuyer();
+  }
+
+  if (imageFile) {
+    const reader = new FileReader();
+
+    reader.onload = function(event) {
+      saveProduct(event.target.result);
+    };
+
+    reader.readAsDataURL(imageFile);
+  } else {
+    saveProduct("");
+  }
+});
 document.getElementById('joinForm').addEventListener('submit', function(e){
   e.preventDefault();
   const name=document.getElementById('name').value.trim();
