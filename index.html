@@ -293,7 +293,14 @@ footer{background:var(--dark);color:white;text-align:center;padding:30px 7%}foot
 
 // ===== MAGX MARKETPLACE =====
 
-let products = JSON.parse(localStorage.getItem("magxProducts") || "[]");
+let products = [];
+
+try {
+  products = JSON.parse(localStorage.getItem("magxProducts") || "[]");
+  if (!Array.isArray(products)) products = [];
+} catch (error) {
+  products = [];
+  }
 
 function showBuyer() {
   document.getElementById("buyerArea").style.display = "block";
@@ -355,6 +362,7 @@ function renderProducts() {
 document.getElementById("searchProduct").addEventListener("input", renderProducts);
 document.getElementById("categoryFilter").addEventListener("change", renderProducts);
 
+
 document.getElementById("productForm").addEventListener("submit", function(e) {
   e.preventDefault();
 
@@ -369,6 +377,7 @@ document.getElementById("productForm").addEventListener("submit", function(e) {
 
   function saveProduct(image) {
     const product = {
+      id: Date.now(),
       sellerName,
       sellerPhone,
       name,
@@ -379,13 +388,19 @@ document.getElementById("productForm").addEventListener("submit", function(e) {
       image
     };
 
-    products.push(product);
-    localStorage.setItem("magxProducts", JSON.stringify(products));
+    try {
+      products.push(product);
+      localStorage.setItem("magxProducts", JSON.stringify(products));
 
-    alert("Product added successfully!");
+      alert("Product added successfully!");
 
-    document.getElementById("productForm").reset();
-    showBuyer();
+      document.getElementById("productForm").reset();
+      showBuyer();
+    } catch (error) {
+      products.pop();
+      alert("The product could not be saved. Please try without a photo.");
+      console.error("MAGX product save error:", error);
+    }
   }
 
   if (imageFile) {
@@ -399,8 +414,7 @@ document.getElementById("productForm").addEventListener("submit", function(e) {
   } else {
     saveProduct("");
   }
-});
-document.getElementById('joinForm').addEventListener('submit', function(e){
+});document.getElementById('joinForm').addEventListener('submit', function(e){
   e.preventDefault();
   const name=document.getElementById('name').value.trim();
   const phone=document.getElementById('phone').value.trim();
